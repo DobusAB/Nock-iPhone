@@ -58,7 +58,7 @@ class JoinCompanyDetailViewController: UIViewController, UIScrollViewDelegate {
         let realm = try! Realm()
         user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user!.token]
-        Alamofire.request(.GET, "http://52.31.123.168//api/v1/company/\(company.id)", headers: headers)
+        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(company.id)", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
@@ -79,7 +79,7 @@ class JoinCompanyDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func joinCompany() {
         let headers = ["X-Authentication-Token": user!.token]
-        Alamofire.request(.GET, "http://52.31.123.168//api/v1/company/\(company.id)/join", headers: headers)
+        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(company.id)/join", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)

@@ -88,7 +88,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         let user = realm.objects(User)[0]
         print(user)
         let headers = ["X-Authentication-Token": user.token]
-        Alamofire.request(.GET, "http://52.31.123.168//api/v1/company/\(user.companyId)", headers: headers)
+        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(user.companyId)", headers: headers)
             .responseString{ (req, res, string) in
                 print(string.value)
             /*.responseData { (request, response, data) in
@@ -112,7 +112,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
-        Alamofire.request(.PUT, "http://52.31.123.168//api/v1/company/\(user.companyId)/leave", headers: headers)
+        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/company/\(user.companyId)/leave", headers: headers)
             .responseData { (request, response, result) in
                 if response?.statusCode == 200 {
                     print("STATUS = 200")
@@ -132,7 +132,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
         print(headers)
-        Alamofire.request(.GET, "http://52.31.123.168//api/v1/company/\(user.companyId)", headers: headers)
+        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(user.companyId)", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     self.employees.removeAll()

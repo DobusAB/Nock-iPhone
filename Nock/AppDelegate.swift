@@ -133,7 +133,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print("Start beacon")
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.delegate = self
-        beaconRegion = CLBeaconRegion(proximityUUID: proximityUUID, major: 4386, minor: 13124, identifier: "beaconRegion")
+        //beaconRegion = CLBeaconRegion(proximityUUID: proximityUUID, major: 4386, minor: 13124, identifier: "beaconRegion")
+        beaconRegion = CLBeaconRegion(proximityUUID: proximityUUID, major: 0, minor: 0, identifier: "beaconRegion")
         locationManager.startMonitoringForRegion(beaconRegion)
         //locationManager.startRangingBeaconsInRegion(beaconRegion)
         beaconRegion.notifyOnEntry = true
@@ -178,6 +179,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
         locationManager.startRangingBeaconsInRegion(beaconRegion)
+        if state == CLRegionState.Inside {
+            print("We are inside")
+            checkIn()
+        } else {
+            print("We are outside")
+            checkOut()
+        }
         print(state)
     }
     
@@ -208,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print(user)
         let headers = ["X-Authentication-Token": user.token]
         let parameters = ["status": 1]
-        Alamofire.request(.PUT, "http://52.31.123.168//api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
+        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
@@ -226,7 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print(user)
         let headers = ["X-Authentication-Token": user.token]
         let parameters = ["status": 0]
-        Alamofire.request(.PUT, "http://52.31.123.168//api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
+        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
