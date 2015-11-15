@@ -51,13 +51,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         header.insertSubview(headerBlurImageView, belowSubview: headerLabel)
         header.insertSubview(headerBlurImageView, belowSubview: editButtonSmall)
         header.clipsToBounds = true
-        
-        //fetchCompany()
-    }
-    
-    
-    override func viewDidAppear(animated: Bool) {
-        fetchDescription()
     }
     
     override func viewDidLoad() {
@@ -75,20 +68,12 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         presentOptionSheet()
     }
     
-    
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        if motion == .MotionShake {
-            print("Shaken, not stirred")
-            logout()
-        }
-    }
-    
-    func fetchDescription() {
+    /*func fetchDescription() {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         print(user)
         let headers = ["X-Authentication-Token": user.token]
-        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(user.companyId)", headers: headers)
+        Alamofire.request(.GET, "http://nockapp.se/api/v1/company/\(user.companyId)", headers: headers)
             .responseString{ (req, res, string) in
                 print(string.value)
             /*.responseData { (request, response, data) in
@@ -106,13 +91,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                     print(response?.statusCode)
                 }*/
         }
-    }
+    }*/
 
     func leaveCompany() {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
-        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/company/\(user.companyId)/leave", headers: headers)
+        Alamofire.request(.PUT, "http://nockapp.se/api/v1/company/\(user.companyId)/leave", headers: headers)
             .responseData { (request, response, result) in
                 if response?.statusCode == 200 {
                     print("STATUS = 200")
@@ -126,13 +111,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    
     func fetchCompany() {
+        print("fetch company")
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
-        print(headers)
-        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(user.companyId)", headers: headers)
+        print(user)
+        Alamofire.request(.GET, "http://nockapp.se/api/v1/company/\(user.companyId)", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     self.employees.removeAll()
@@ -141,10 +126,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                     self.companyName.text = json["data"]["name"].description
                     self.companyDescription.text = json["data"]["description"].description
                     self.headerLabel.text = json["data"]["name"].description
-                    /*Alamofire.request(.GET, json["data"]["company_imageURL"].description).response { (request, response, data, error) in
-                        return print(data!)
-                        self.companyImageSmall.image = UIImage(data: data!, scale:1)
-                    }*/
+                    
+                    //TODO: LÄgg till från API, hårdkodat
+                    self.companyLocation.text = "Science Park Halmstad"
+                    Alamofire.request(.GET, json["data"]["company_imageURL"].description).response { (request, response, data, error) in
+                        //return print(data!)
+                        //self.companyImageSmall.image = UIImage(data: data!, scale:1)
+                    }
                     Alamofire.request(.GET, json["data"]["company_imageURL"].description).response { (request, response, data, error) in
                         self.companyImage.image = UIImage(data: data!, scale:1)
                     }
@@ -161,11 +149,16 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                 } else {
                     print("Error fetching data")
                     print(response?.statusCode)
+                    let json = JSON(data: data.value!)
+                    print(json)
                 }
         }
     }
     
     func logout() {
+        let realm = try! Realm()
+        let user = realm.objects(User)[0]
+        removeDeviceToken(user)
         do {
             let realm = try Realm()
             try realm.write() {
@@ -176,14 +169,26 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             print("Something went wrong with realm!")
         }
     }
-   
+    
+    func removeDeviceToken(user: User) {
+        let headers = ["X-Authentication-Token": user.token]
+        let parameters: [String: AnyObject] = ["user_id": user.id, "device_token": ""]
+        Alamofire.request(.PUT, "http://nockapp.se/api/v1/user/devicetoken", headers: headers, parameters: parameters)
+            .responseData { (request, response, data) in
+                if response?.statusCode == 200 {
+                    print("DEVICE TOKEN removed!")
+                } else {
+                    print("Error from api")
+                    print(response?.statusCode)
+                }
+        }
+    }
     
     func editProfile() {
         performSegueWithIdentifier("editProfileSegue", sender: nil)
     }
     
     func presentOptionSheet() {
-        
         let optionActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertControllerStyle.ActionSheet)
         
         optionActionSheet.addAction(UIAlertAction(title:"Redigera Profil", style:UIAlertActionStyle.Default, handler:{ action in
@@ -207,7 +212,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         var offset = scrollView.contentOffset.y
         var headerTransform = CATransform3DIdentity
         
@@ -269,9 +273,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("profileEmployeeCell", forIndexPath: indexPath) as! ProfileEmployeeCollectionViewCell
-        
         
         cell.employeeImage.layer.cornerRadius = 2
         cell.employeeImage.layer.masksToBounds = true
@@ -283,7 +285,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    
     // Uncomment this method to specify if the specified item should be highlighted during tracking
     func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
@@ -294,9 +295,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         return true
     }
     
-
-    
-
     /*
     // MARK: - Navigation
 

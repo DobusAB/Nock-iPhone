@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                         default:
                             proximityMessage = "Did range beacon, proximity unknown"
                         }
-                        print(proximityMessage)
+                        //print(proximityMessage)
                     }
                 }
             }
@@ -216,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print(user)
         let headers = ["X-Authentication-Token": user.token]
         let parameters = ["status": 1]
-        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
+        Alamofire.request(.PUT, "http://nockapp.se/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
@@ -234,7 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print(user)
         let headers = ["X-Authentication-Token": user.token]
         let parameters = ["status": 0]
-        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
+        Alamofire.request(.PUT, "http://nockapp.se/api/v1/users/\(user.id)/status", headers: headers, parameters: parameters)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)

@@ -50,7 +50,7 @@ class AuthViewController: UIViewController {
         print(fbResult.token.tokenString)
         let parameters = ["token": fbResult.token.tokenString, "device_token": self.defaults.valueForKey("userDeviceToken") as! String]
         print(parameters)
-        Alamofire.request(.POST, "http://52.31.123.168/api/v1/login", parameters: parameters)
+        Alamofire.request(.POST, "http://nockapp.se/api/v1/login", parameters: parameters)
             .responseData { (request, response  , result) in
                 if response?.statusCode == 200 {
                     print("STATUS = 200")
@@ -95,7 +95,7 @@ class AuthViewController: UIViewController {
     func storeDeviceToken(user: User) {
         let headers = ["X-Authentication-Token": user.token]
         let parameters: [String: AnyObject] = ["user_id": user.id, "device_token": user.deviceToken]
-        Alamofire.request(.PUT, "http://52.31.123.168/api/v1/user/devicetoken", headers: headers, parameters: parameters)
+        Alamofire.request(.PUT, "http://nockapp.se/api/v1/user/devicetoken", headers: headers, parameters: parameters)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     print("DEVICE TOKEN STORED!")

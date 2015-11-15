@@ -58,7 +58,7 @@ class JoinCompanyDetailViewController: UIViewController, UIScrollViewDelegate {
         let realm = try! Realm()
         user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user!.token]
-        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(company.id)", headers: headers)
+        Alamofire.request(.GET, "http://nockapp.se/api/v1/company/\(company.id)", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
@@ -76,14 +76,14 @@ class JoinCompanyDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    
     func joinCompany() {
         let headers = ["X-Authentication-Token": user!.token]
-        Alamofire.request(.GET, "http://52.31.123.168/api/v1/company/\(company.id)/join", headers: headers)
+        Alamofire.request(.GET, "http://nockapp.se/api/v1/company/\(company.id)/join", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
                     print(json)
+                    self.saveCompanyToUser(self.company.id)
                     self.performSegueWithIdentifier("toProfileSegue", sender: nil)
                 } else {
                     print("Error fetching data")
@@ -91,11 +91,23 @@ class JoinCompanyDetailViewController: UIViewController, UIScrollViewDelegate {
                     print(JSON(data: data.value!))
                 }
         }
-
     }
 
     @IBAction func join(sender: AnyObject) {
         joinCompany()        
+    }
+    
+    func saveCompanyToUser(companyId: Int) {
+        print("SAVECOMPANYTOUSER")
+        let companyInt: Int? = companyId
+        let realm = try! Realm()
+        let user = realm.objects(User)[0]
+        if companyInt != nil {
+            realm.write({ () -> Void in
+                user.companyId = companyId
+                realm.add(user, update: true)
+            })
+        }
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

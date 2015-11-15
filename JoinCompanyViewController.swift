@@ -36,7 +36,7 @@ class JoinCompanyViewController: UIViewController {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
-        Alamofire.request(.GET, "http://52.31.123.168/api/v1/companies", headers: headers)
+        Alamofire.request(.GET, "http://nockapp.se/api/v1/companies", headers: headers)
             .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
