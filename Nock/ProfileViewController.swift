@@ -80,11 +80,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                     let json = JSON(data: data.value!)
                     print(json)
                     self.companyDescription.text = json["data"]["description"].description
-                    
-                    /*Alamofire.request(.GET, json["data"]["company_imageURL"].description).response { (request, response, data, error) in
-                    return print(data!)
-                    self.companyImageSmall.image = UIImage(data: data!, scale:1)
-                    }*/
                 } else {
                     print("Error fetching data")
                     print(response?.statusCode)
@@ -126,7 +121,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                     self.companyDescription.text = json["data"]["description"].description
                     self.headerLabel.text = json["data"]["name"].description
                     
-                    //TODO: LÄgg till från API, hårdkodat
+                    //TODO: LÄgg till från API, hårdkodat atm
                     self.companyLocation.text = "Science Park Halmstad"
                     Alamofire.request(.GET, json["data"]["company_imageURL"].description).response { (request, response, data, error) in
                         //return print(data!)

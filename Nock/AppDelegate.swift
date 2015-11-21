@@ -58,7 +58,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         //Ask user for push permission
         if application.respondsToSelector("registerUserNotificationSettings:") {
             let userNotificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
-            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            //Specify push actions
+            // Specify the notification actions.
+            // increment Action
+            let incrementAction = UIMutableUserNotificationAction()
+            incrementAction.identifier = "INCREMENT_ACTION"
+            incrementAction.title = "Add +1"
+            incrementAction.activationMode = UIUserNotificationActivationMode.Background
+            incrementAction.authenticationRequired = true
+            incrementAction.destructive = false
+            
+            // decrement Action
+            let decrementAction = UIMutableUserNotificationAction()
+            decrementAction.identifier = "DECREMENT_ACTION"
+            decrementAction.title = "Sub -1"
+            decrementAction.activationMode = UIUserNotificationActivationMode.Background
+            decrementAction.authenticationRequired = true
+            decrementAction.destructive = false
+            
+            // reset Action
+            let resetAction = UIMutableUserNotificationAction()
+            resetAction.identifier = "RESET_ACTION"
+            resetAction.title = "Reset"
+            resetAction.activationMode = UIUserNotificationActivationMode.Foreground
+            // NOT USED resetAction.authenticationRequired = true
+            resetAction.destructive = true
+            
+            // Category
+            let counterCategory = UIMutableUserNotificationCategory()
+            counterCategory.identifier = "COUNTER_CATEGORY"
+            
+            // A. Set actions for the default context
+            counterCategory.setActions([incrementAction, decrementAction, resetAction],
+            forContext: UIUserNotificationActionContext.Default)
+            
+            // B. Set actions for the minimal context
+            counterCategory.setActions([incrementAction, decrementAction],
+            forContext: UIUserNotificationActionContext.Minimal)
+            
+            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: NSSet(object: counterCategory) as! Set<UIUserNotificationCategory>)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
@@ -86,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print(userInfo)
-        PFPush.handlePush(userInfo)
+        //PFPush.handlePush(userInfo)
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
