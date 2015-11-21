@@ -12,12 +12,9 @@ import SwiftyJSON
 import Alamofire
 
 class EditCompanyViewController: UIViewController {
-
     @IBOutlet weak var header: UIView!
     @IBOutlet weak var companyDescription: UITextView!
-
     let nockPurple = UIColor(red:0.44, green:0.00, blue:1.00, alpha:1.0)
-    
     
     override func viewWillAppear(animated: Bool) {
         
@@ -27,11 +24,11 @@ class EditCompanyViewController: UIViewController {
         super.viewDidLoad()
         header.layer.backgroundColor = nockPurple.CGColor
         companyDescription.becomeFirstResponder()
-        fetchCompany()
+        fetchCompanyDescription()
     }
     
     
-    func fetchCompany() {
+    func fetchCompanyDescription() {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         let headers = ["X-Authentication-Token": user.token]
@@ -53,8 +50,6 @@ class EditCompanyViewController: UIViewController {
         }
     }
 
-    
-    
     
     func updateCompany() {
         let realm = try! Realm()
@@ -78,18 +73,12 @@ class EditCompanyViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    
     @IBAction func cancel(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)        
     }
     
-    func saveChanges() {
-        print("HAHAHAHA")
-    }
-    
     @IBAction func save(sender: AnyObject) {
-         updateCompany()
-         saveChanges()
-         dismissViewControllerAnimated(true, completion: nil)
+        updateCompany()
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

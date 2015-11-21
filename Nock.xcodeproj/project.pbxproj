@@ -21,7 +21,6 @@
 		559E55731BED243D00F669A3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 559E55711BED243D00F669A3 /* Bolts.framework */; };
 		559E55741BED243D00F669A3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 559E55721BED243D00F669A3 /* Parse.framework */; };
 		55D3D6EB1BBEFB6400CD7220 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55D3D6EA1BBEFB6400CD7220 /* FBSDKLoginKit.framework */; };
-		55D507A31BC5724600FCB987 /* CompanyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D507A21BC5724600FCB987 /* CompanyRealm.swift */; };
 		55DD70701BBF53AB003E0F76 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DD706F1BBF53AB003E0F76 /* Company.swift */; };
 		55DD70721BBF56CD003E0F76 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DD70711BBF56CD003E0F76 /* User.swift */; };
 		AC4FD5CFE2E8FC731FFF6248 /* Pods_Nock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C516EA280A744D093B104C1 /* Pods_Nock.framework */; };
@@ -81,7 +80,6 @@
 		559E55711BED243D00F669A3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		559E55721BED243D00F669A3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		55D3D6EA1BBEFB6400CD7220 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "Pods/../build/Debug-iphoneos/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
-		55D507A21BC5724600FCB987 /* CompanyRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyRealm.swift; sourceTree = "<group>"; };
 		55DD706F1BBF53AB003E0F76 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		55DD70711BBF56CD003E0F76 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B134D92A1BBED1E500C13A87 /* Nock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,7 +169,6 @@
 				55DD706F1BBF53AB003E0F76 /* Company.swift */,
 				55DD70711BBF56CD003E0F76 /* User.swift */,
 				5514D3461BC2EBBD005CADAB /* Employee.swift */,
-				55D507A21BC5724600FCB987 /* CompanyRealm.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -472,7 +469,6 @@
 			files = (
 				B134D9641BBEEC1F00C13A87 /* JoinCompanyViewController.swift in Sources */,
 				B134D9301BBED1E500C13A87 /* AuthViewController.swift in Sources */,
-				55D507A31BC5724600FCB987 /* CompanyRealm.swift in Sources */,
 				B1B65B871BC4247E004C56C9 /* NockButton.swift in Sources */,
 				B1B65B851BC41F5C004C56C9 /* FXBlurView.m in Sources */,
 				B1DFC28E1BC2ED0F0003DE4C /* ProfileEmployeeCollectionViewCell.swift in Sources */,

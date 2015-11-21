@@ -31,9 +31,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     let offset_HeaderStop:CGFloat = 90.0 // At this offset the Header stops its transformations
     let offset_B_LabelHeader:CGFloat = 110.0 // At this offset the Black label reaches the Header
     let distance_W_LabelHeader:CGFloat = 35.0 // The distance between the bottom of the Header and the top of the White Label
-    
     let nockPurple = UIColor(red:0.44, green:0.00, blue:1.00, alpha:1.0)
-    
     
     override func viewWillAppear(animated: Bool) {
         headerImageView = UIImageView(frame: header.bounds)
@@ -51,6 +49,8 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         header.insertSubview(headerBlurImageView, belowSubview: headerLabel)
         header.insertSubview(headerBlurImageView, belowSubview: editButtonSmall)
         header.clipsToBounds = true
+        
+        fetchDescription()
     }
     
     override func viewDidLoad() {
@@ -62,21 +62,20 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         
         //scrollView.alwaysBounceVertical = true
         fetchCompany()
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "fetchCompany", name: "updateData", object: nil)
     }
     
     @IBAction func editButtonAction(sender: AnyObject) {
         presentOptionSheet()
     }
     
-    /*func fetchDescription() {
+    func fetchDescription() {
         let realm = try! Realm()
         let user = realm.objects(User)[0]
         print(user)
         let headers = ["X-Authentication-Token": user.token]
         Alamofire.request(.GET, "http://nockapp.se/api/v1/company/\(user.companyId)", headers: headers)
-            .responseString{ (req, res, string) in
-                print(string.value)
-            /*.responseData { (request, response, data) in
+            .responseData { (request, response, data) in
                 if response?.statusCode == 200 {
                     let json = JSON(data: data.value!)
                     print(json)
@@ -89,9 +88,9 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                 } else {
                     print("Error fetching data")
                     print(response?.statusCode)
-                }*/
+                }
         }
-    }*/
+    }
 
     func leaveCompany() {
         let realm = try! Realm()
@@ -144,6 +143,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
                     for employee in json["data"]["users"] {
                         let tempEmployee = Employee(profileImageURL: employee.1["profile_image"].description)
                         self.employees.append(tempEmployee)
+                        //self.employeeCollectionView.insertItemsAtIndexPaths([insertIndexPath])
                         self.employeeCollectionView.reloadData()
                     }
                 } else {
